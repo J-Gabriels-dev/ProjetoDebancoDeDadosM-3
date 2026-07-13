@@ -178,6 +178,9 @@
         <mxCell id="CBY4Z4Dv_NK7IEB5n5EN-58" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontSize=13;" value="TRAMITACAO" vertex="1">
           <mxGeometry height="60" width="160" x="1410" y="719" as="geometry" />
         </mxCell>
+        <mxCell id="Xtc-dV3EwF3tTaP77aHy-1" edge="1" parent="1" source="CBY4Z4Dv_NK7IEB5n5EN-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CBY4Z4Dv_NK7IEB5n5EN-61" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="CBY4Z4Dv_NK7IEB5n5EN-59" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;fontStyle=4;" value="id_tramitacao" vertex="1">
           <mxGeometry height="40" width="120" x="1534" y="639" as="geometry" />
         </mxCell>
