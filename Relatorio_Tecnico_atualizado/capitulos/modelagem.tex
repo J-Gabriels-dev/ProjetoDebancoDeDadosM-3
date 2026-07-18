@@ -1,0 +1,138 @@
+% ---
+% 3 Modelagem do Projeto
+% Este arquivo contém a documentação técnica e modelagem do software.
+% Conforme as Diretrizes do PPC, deve incluir: levantamento de requisitos,
+% diagrama de casos de uso, diagrama de classes, arquitetura do sistema,
+% diagrama entidade-relacionamento e interfaces.
+% ---
+\chapter{MODELAGEM DO PROJETO}
+\label{cap:modelagem}
+
+Este capítulo é destinado à apresentação da documentação técnica e modelagem do software, cobrindo aspectos de engenharia de requisitos, design de interface e modelagem de dados, conforme exigido pelas Diretrizes do PPC.
+
+\section{Levantamento de Requisitos}
+
+Apresente o levantamento e a especificação dos requisitos do software.
+
+\subsection{Requisitos Funcionais}
+Os Requisitos Funcionais (RF) descrevem o que o sistema deve fazer. A Tabela \ref{tab:requisitos_funcionais} apresenta os requisitos funcionais identificados.
+
+% --- EXEMPLO DE TABELA ---
+% Tabelas apresentam dados numéricos ou textuais com linhas horizontais
+% nas bordas superior e inferior e na separação do cabeçalho.
+\begin{table}[htb]
+\centering
+\caption{Lista de Requisitos Funcionais}
+\label{tab:requisitos_funcionais}
+\begin{tabular}{@{}lp{10cm}@{}}
+\toprule
+\textbf{Código} & \textbf{Descrição} \\ \midrule
+RF01 & O sistema deve permitir o cadastro de usuários com nome, e-mail e senha. \\
+RF02 & O sistema deve autenticar o usuário via login e senha. \\
+RF03 & O sistema deve gerar relatórios de acesso em formato PDF. \\
+RF04 & O sistema deve permitir a recuperação de senha via e-mail. \\ \bottomrule
+\end{tabular}
+\source{Elaborada pelo autor (\imprimirdata).}
+\end{table}
+
+\subsection{Requisitos Não Funcionais}
+Os Requisitos Não Funcionais (RNF) descrevem restrições e qualidades do sistema:
+
+\begin{table}[htb]
+\centering
+\caption{Lista de Requisitos Não Funcionais}
+\label{tab:requisitos_nao_funcionais}
+\begin{tabular}{@{}lp{10cm}@{}}
+\toprule
+\textbf{Código} & \textbf{Descrição} \\ \midrule
+RNF01 & O sistema deve ser responsivo, adaptando-se a dispositivos móveis. \\
+RNF02 & As senhas devem ser armazenadas utilizando criptografia \textit{hash} (bcrypt). \\
+RNF03 & O tempo de resposta para qualquer operação não deve exceder 3 segundos. \\ \bottomrule
+\end{tabular}
+\source{Elaborada pelo autor (\imprimirdata).}
+\end{table}
+
+% --- EXEMPLO DE QUADRO ---
+% Quadros são semelhantes a tabelas, mas possuem todas as bordas fechadas
+% e são usados para informações textuais qualitativas.
+O Quadro \ref{quad:tecnologias} apresenta uma comparação entre as tecnologias avaliadas.
+
+\begin{table}[htb]
+\centering
+\caption{Comparação entre tecnologias avaliadas}
+\label{quad:tecnologias}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Critério} & \textbf{Django} & \textbf{Flask} & \textbf{FastAPI} \\ \hline
+Curva de aprendizado & Moderada & Baixa & Baixa \\ \hline
+ORM integrado & Sim & Não & Não \\ \hline
+Performance & Boa & Boa & Excelente \\ \hline
+Documentação & Excelente & Boa & Boa \\ \hline
+\end{tabular}
+\source{Elaborado pelo autor (\imprimirdata).}
+\end{table}
+
+
+\section{Diagrama de Casos de Uso}
+
+Apresente o Diagrama de Casos de Uso (UML) para ilustrar as interações entre os atores e o sistema. A Figura \ref{fig:caso_uso} apresenta um exemplo.
+
+% --- EXEMPLO DE INSERÇÃO DE FIGURA ---
+% Para inserir sua própria figura:
+% 1. Salve a imagem na pasta figuras/ (ex: figuras/caso_uso.png)
+% 2. Descomente a linha \includegraphics e comente o \fbox
+\begin{figure}[htb]
+\centering
+\caption{Diagrama de Casos de Uso do Sistema}
+\label{fig:caso_uso}
+% \includegraphics[width=0.8\textwidth]{figuras/caso_uso.png}
+\fbox{\parbox{0.8\textwidth}{\centering \vspace{3cm} [Inserir Imagem do Diagrama de Casos de Uso aqui] \\ Salve a imagem em: \texttt{figuras/caso\_uso.png} \vspace{3cm}}}
+\source{Elaborada pelo autor (\imprimirdata).}
+\end{figure}
+
+\section{Diagrama de Classes}
+
+Apresente o Diagrama de Classes (UML) que modela a estrutura estática do sistema.
+
+\section{Arquitetura do Sistema}
+
+Descreva a arquitetura adotada (ex: MVC, Cliente-Servidor, Microsserviços). Utilize figuras para ilustrar os componentes e suas interações.
+
+\section{Diagrama Entidade-Relacionamento}
+
+O Modelo Entidade-Relacionamento (MER) do sistema foi construído a partir do levantamento de requisitos legais aplicáveis à concessão de Licença para Capacitação no serviço público federal, contemplando seis entidades principais: \textbf{SERVIDOR}, \textbf{AFASTAMENTO\_VIGENTE}, \textbf{SOLICITACAO}, \textbf{ACAO\_CAPACITACAO}, \textbf{TRAMITACAO} e \textbf{PARCELA}.
+
+O modelo foi elaborado utilizando notação clássica (retângulos para entidades, elipses para atributos, elipses sublinhadas para chaves primárias e losangos para relacionamentos), conforme apresentado na Figura \ref{fig:der_sistema}.
+
+Dentre as regras de negócio incorporadas diretamente na modelagem de dados, destacam-se:
+
+\begin{itemize}
+\item o cálculo do saldo de dias de capacitação \textbf{não é armazenado como campo estático}, sendo obtido dinamicamente por meio da soma dos intervalos (\texttt{data\_fim - data\_inicio}) das parcelas com status "concluída", evitando inconsistências de dados;
+\item a entidade \textbf{TRAMITACAO} reflete o fluxo de aprovação obrigatório definido pelo Art. 33 da IN 21/2021, exigindo três aprovadores: chefia imediata, gestão de pessoas e autoridade máxima;
+\item a entidade \textbf{AFASTAMENTO\_VIGENTE} permite a verificação de conflitos entre diferentes tipos de afastamento ativos, impedindo sobreposição de datas.
+\end{itemize}
+
+As demais regras de negócio de maior complexidade — como a verificação de elegibilidade por quinquênio, o intervalo mínimo de 60 dias entre parcelas (interstício) e o limite de 5\% de afastamento simultâneo por setor — são validadas na camada de aplicação (\textit{backend}), cabendo ao banco de dados apenas a garantia de restrições estruturais simples, em conformidade com a arquitetura de três camadas adotada no projeto (interface, backend e banco de dados).
+
+\begin{figure}[htb]
+\centering
+\caption{Diagrama Entidade-Relacionamento do Sistema de Licença Capacitação}
+\label{fig:der_sistema}
+\includegraphics[width=0.95\textwidth]{figuras/der_sistema.png}
+\source{Elaborado pelo autor (\imprimirdata).}
+\end{figure}
+
+% --- EXEMPLO DE EQUAÇÃO ---
+% Equações são numeradas automaticamente e podem ser referenciadas.
+A complexidade algorítmica do módulo de busca foi analisada. A Equação \ref{eq:complexidade} apresenta a complexidade temporal do algoritmo de ordenação utilizado:
+
+\begin{equation}
+\label{eq:complexidade}
+T(n) = O(n \cdot \log n)
+\end{equation}
+
+onde $n$ representa o número de registros a serem ordenados.
+
+\section{Interfaces}
+
+Insira as principais telas do protótipo (\textit{Wireframes} ou \textit{Mockups} de alta fidelidade) desenvolvidas na fase de design. Explique brevemente a funcionalidade de cada tela apresentada.
