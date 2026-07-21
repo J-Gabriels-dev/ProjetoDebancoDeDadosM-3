@@ -4,53 +4,63 @@
 % Conforme as Diretrizes do PPC, a introdução deve contextualizar o problema,
 % apresentar os objetivos e a justificativa do projeto.
 % ---
-\chapter{introdução}
+\chapter{Introdução}
 \label{cap:introducao}
 
-A introdução deve apresentar de forma clara e objetiva o escopo do projeto, contextualizando o problema que o software visa resolver. De acordo com as Diretrizes do PPC do Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas (TADS), este capítulo deve abordar o tema central, a motivação para a escolha do projeto e os objetivos a serem alcançados.
+A gestão de pessoas no serviço público federal envolve processos administrativos complexos, regulamentados por legislação específica que impõe prazos, critérios e fluxos de aprovação rigorosos. Entre esses processos, destaca-se a concessão de Licença Capacitação, prevista no art. 87 da Lei nº 8.112, de 11 de dezembro de 1990, que garante ao servidor público federal o direito de se afastar de suas atividades por até 90 dias a cada quinquênio de efetivo exercício, com a finalidade de participar de ações de desenvolvimento profissional.
 
-% --- EXEMPLO DE CITAÇÃO INDIRETA ---
-% A citação indireta reproduz a ideia do autor com suas próprias palavras.
-Segundo \textcite{pressman_engenharia}, a engenharia de software é uma disciplina que se ocupa de todos os aspectos da produção de software, desde os estágios iniciais de especificação do sistema até a manutenção desse sistema após ele entrar em uso.
+Segundo \textcite{pressman_engenharia}, a engenharia de software é uma disciplina que se ocupa de todos os aspectos da produção de software, desde os estágios iniciais de especificação do sistema até a manutenção desse sistema após ele entrar em uso. Nesse contexto, o desenvolvimento de sistemas voltados à automação de processos administrativos representa uma das aplicações mais relevantes dessa disciplina, especialmente em ambientes institucionais onde a conformidade legal é requisito indispensável.
 
-% --- EXEMPLO DE CITAÇÃO DIRETA CURTA (até 3 linhas) ---
-% Citações diretas com até 3 linhas ficam entre aspas, no corpo do texto.
-Conforme a ABNT NBR 14724, ``esta Norma especifica os princípios gerais para a elaboração de trabalhos acadêmicos (teses, dissertações e outros), visando sua apresentação à instituição'' \cite{pressman_engenharia}.
-
-% --- EXEMPLO DE NOTA DE RODAPÉ ---
-O desenvolvimento de software\footnote{Software é um conjunto de instruções que, quando executadas, fornecem características, funções e desempenho desejados \cite{pressman_engenharia}.} envolve diversas etapas que devem ser documentadas adequadamente.
+O presente projeto tem como proposta o desenvolvimento de um sistema informatizado para o controle e gerenciamento de solicitações de Licença Capacitação, em substituição ao processo atualmente realizado de forma manual por meio de planilhas eletrônicas e documentos físicos. A solução proposta visa digitalizar e automatizar o fluxo de solicitação, tramitação e concessão da licença, garantindo conformidade com a legislação vigente — em especial o Decreto nº 9.991, de 28 de agosto de 2019, e a Instrução Normativa SGP-ENAP/SEDGG/ME nº 21, de 1º de fevereiro de 2021.
 
 \section{Problema}
 
-Descreva detalhadamente o problema ou a oportunidade de melhoria que motivou o desenvolvimento do software. Explique o cenário atual, as dificuldades enfrentadas pelos usuários ou pela organização e por que uma solução tecnológica se faz necessária.
+O setor responsável pelo gerenciamento de Licença Capacitação da instituição conduz atualmente todo o processo de forma manual, utilizando planilhas eletrônicas e registros físicos para controlar as solicitações dos servidores. Essa abordagem apresenta uma série de problemas operacionais que comprometem a eficiência e a conformidade legal do processo.
 
-% --- EXEMPLO DE CITAÇÃO DIRETA LONGA (mais de 3 linhas) ---
-% Citações com mais de 3 linhas devem ser destacadas com recuo de 4cm,
-% fonte menor (10pt) e espaçamento simples, sem aspas.
 \begin{citacao}
 A engenharia de software é uma disciplina de engenharia relacionada com todos os aspectos da produção de software, desde os estágios iniciais de especificação do sistema até a manutenção desse sistema, depois que ele entrou em uso. Nessa definição, existem duas frases-chave: disciplina de engenharia e todos os aspectos da produção de software \cite[p.~39]{pressman_engenharia}.
 \end{citacao}
 
+Entre os principais problemas identificados no processo atual, destacam-se:
+
+\begin{itemize}
+    \item Dificuldade em identificar quais servidores já possuem direito adquirido ao quinquênio de cinco anos de efetivo exercício;
+    \item Ausência de controle automatizado sobre conflitos de datas entre solicitações simultâneas;
+    \item Falta de rastreabilidade do fluxo de aprovação, tornando difícil identificar em qual etapa uma solicitação se encontra;
+    \item Impossibilidade de monitorar em tempo real o limite legal de 5\% de servidores afastados simultaneamente, conforme o art. 27 do Decreto nº 9.991/2019;
+    \item Dificuldade no controle do saldo de dias utilizados por servidor em cada quinquênio;
+    \item Registro manual e suscetível a erros das parcelas de licença e seus respectivos períodos.
+\end{itemize}
+
+Esses problemas resultam em retrabalho, risco de descumprimento da legislação e dificuldade na tomada de decisões pelos gestores responsáveis pelo processo.
+
 \section{Objetivos}
-Nesta seção devem ser apresentados os objetivos do projeto, indicando de forma clara o que se pretende alcançar com o desenvolvimento do software. Os objetivos devem ser coerentes com o problema de pesquisa, delimitar o escopo do trabalho e orientar todas as etapas de desenvolvimento e avaliação da solução proposta.
+
+Nesta seção são apresentados os objetivos do projeto, delimitando o escopo do trabalho e orientando as etapas de desenvolvimento e avaliação da solução proposta.
+
 \subsection{Objetivo Geral}
-Apresente o objetivo geral do projeto. Deve ser uma frase clara, iniciando com verbo no infinitivo, que resuma o propósito principal do software (ex: Desenvolver um sistema web para gerenciamento de...).
+
+Desenvolver um sistema web para o controle e gerenciamento de solicitações de Licença Capacitação de servidores públicos federais, em conformidade com a Lei nº 8.112/1990, o Decreto nº 9.991/2019 e a Instrução Normativa SGP-ENAP/SEDGG/ME nº 21/2021.
 
 \subsection{Objetivos Específicos}
-Liste os objetivos específicos que, somados, permitirão alcançar o objetivo geral:
+
 \begin{itemize}
-    \item Realizar o levantamento de requisitos com os usuários finais;
-    \item Modelar o banco de dados relacional para armazenamento das informações;
-    \item Implementar os módulos de cadastro e relatórios;
-    \item Realizar testes de usabilidade e validação do sistema.
+    \item Realizar o levantamento e a validação dos requisitos de negócio junto aos responsáveis pelo setor, identificando as regras estabelecidas pela legislação vigente;
+    \item Modelar o banco de dados relacional para armazenamento e controle das informações de servidores, solicitações, tramitações, licenças e parcelas;
+    \item Implementar o módulo de banco de dados com as restrições de integridade que garantam a conformidade legal das operações;
+    \item Documentar as regras de negócio que devem ser implementadas no backend, assegurando a divisão correta de responsabilidades entre as camadas do sistema;
+    \item Implementar o fluxo de tramitação com as três etapas obrigatórias de aprovação previstas na IN 21/2021: chefia imediata, gestão de pessoas e autoridade máxima;
+    \item Realizar testes de validação do sistema junto aos usuários finais do setor responsável.
 \end{itemize}
 
 \section{Justificativa}
 
-Apresente os motivos que justificam o desenvolvimento deste software. A justificativa deve responder à pergunta: ``Por que este projeto é importante?''. Podem ser abordados aspectos técnicos, sociais, acadêmicos ou econômicos.
+A automação do processo de controle de Licença Capacitação justifica-se por razões técnicas, legais e operacionais. Do ponto de vista legal, o processo envolve regras específicas estabelecidas pela Lei nº 8.112/1990, pelo Decreto nº 9.991/2019 e pela IN 21/2021, que impõem critérios rigorosos de elegibilidade, prazos, limites de afastamento e fluxos de aprovação. O descumprimento dessas regras pode gerar irregularidades administrativas de responsabilidade da instituição.
 
-% --- EXEMPLO DE HYPERLINK EXTERNO ---
-Para mais informações sobre normas ABNT, consulte o site oficial da Associação Brasileira de Normas Técnicas: \url{https://www.abnt.org.br}.
+Do ponto de vista operacional, a substituição do processo manual por um sistema informatizado reduz significativamente o risco de erros humanos, elimina retrabalho e proporciona rastreabilidade completa de cada solicitação — desde a abertura até a concessão oficial. O sistema permitirá que o setor de gestão de pessoas identifique, em tempo real, quais servidores têm direito à licença, quantos estão afastados simultaneamente e qual é o saldo de dias disponível para cada servidor no quinquênio vigente.
 
-% --- EXEMPLO DE REFERÊNCIA CRUZADA (hyperlink interno) ---
-A modelagem do sistema será apresentada no Capítulo \ref{cap:modelagem}, enquanto os resultados da implementação serão discutidos no Capítulo \ref{cap:software}.
+Do ponto de vista acadêmico, o projeto representa a aplicação prática dos conceitos de análise de requisitos, modelagem de banco de dados relacional, normalização e implementação de restrições de integridade referencial, abordados ao longo do Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas. A escolha de um problema real, com legislação consolidada e stakeholders identificáveis, confere ao projeto relevância prática e alinhamento com as competências previstas no Projeto Pedagógico do Curso.
+
+Para mais informações sobre a legislação que regulamenta a Licença Capacitação, consulte o Portal da Legislação do Governo Federal: \url{https://www.planalto.gov.br}.
+
+A modelagem do banco de dados será apresentada no Capítulo \ref{cap:modelagem}, enquanto os resultados da implementação serão discutidos no Capítulo \ref{cap:software}.
