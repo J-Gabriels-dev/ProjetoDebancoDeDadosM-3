@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram id="diagClasses001" name="Diagrama de Classes - Licenca Capacitacao">
-    <mxGraphModel dx="4291" dy="1226" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0">
+    <mxGraphModel dx="5025" dy="1560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -128,7 +128,7 @@
           <mxGeometry height="22" width="300" y="192" as="geometry" />
         </mxCell>
         <mxCell id="cls_tramitacao" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeParentMax=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#E6F1FB;strokeColor=#185FA5;swimlaneFillColor=#FFFFFF;fontColor=#000000;fontSize=13;" value="Tramitacao" vertex="1">
-          <mxGeometry height="250" width="320" x="-10" y="411" as="geometry" />
+          <mxGeometry height="250" width="320" x="100" y="310" as="geometry" />
         </mxCell>
         <mxCell id="cls_1038" parent="cls_tramitacao" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;whiteSpace=wrap;html=1;" value="- id_tramitacao: int" vertex="1">
           <mxGeometry height="22" width="320" y="30" as="geometry" />
@@ -266,7 +266,7 @@
           <mxGeometry relative="1" x="0.0008" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
-              <mxPoint x="1440" y="480" />
+              <mxPoint x="1630" y="480" />
             </Array>
           </mxGeometry>
         </mxCell>
