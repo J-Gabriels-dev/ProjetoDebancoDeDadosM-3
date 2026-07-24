@@ -146,7 +146,7 @@ CRUDS = {
         "pk": "id_afastamento",
         "fields": [
             ("id_servidor", "fk", "Servidor", Servidor, "id_servidor", "nome"),
-            ("tipo", "select", "Tipo", ["licenca_medica", "licenca_maternidade", "afastamento_acidente", "atestado", "licenca_capacitacao"]),
+            ("tipo", "select", "Tipo", ["licenca_medica", "licenca_maternidade", "afastamento_acidente", "atestado"]),
             ("data_inicio", "date", "Data inicial"),
             ("data_fim", "date", "Data final"),
             ("status", "select", "Status", ["ativo", "encerrado", "cancelado"]),
@@ -180,20 +180,6 @@ CRUDS = {
         ],
         "cols": ["id_acao", "id_solicitacao", "titulo", "instituicao", "modalidade", "carga_horaria_semanal", "local"],
     },
-    "tramitacoes": {
-        "titulo": "Tramitacoes",
-        "model": Tramitacao,
-        "pk": "id_tramitacao",
-        "fields": [
-            ("id_solicitacao", "fk", "Solicitacao", Solicitacao, "id_solicitacao", "id_solicitacao"),
-            ("etapa", "select", "Etapa", ETAPAS),
-            ("responsavel", "text", "Responsavel"),
-            ("decisao", "select", "Decisao", ["pendente", "aprovado", "negado"]),
-            ("observacao", "textarea", "Observacao"),
-            ("data_decisao", "date", "Data da decisao"),
-        ],
-        "cols": ["id_tramitacao", "id_solicitacao", "etapa", "responsavel", "decisao", "data_decisao"],
-    },
     "licencas": {
         "titulo": "Licencas",
         "model": Licenca,
@@ -205,19 +191,6 @@ CRUDS = {
             ("total_dias_aprovados", "number", "Total de dias aprovados"),
         ],
         "cols": ["id_licenca", "id_solicitacao", "data_concessao", "status", "total_dias_aprovados"],
-    },
-    "parcelas": {
-        "titulo": "Parcelas",
-        "model": Parcela,
-        "pk": "id_parcela",
-        "fields": [
-            ("id_licenca", "fk", "Licenca", Licenca, "id_licenca", "id_licenca"),
-            ("numero_parcela", "number", "Numero da parcela"),
-            ("data_inicio", "date", "Data inicial"),
-            ("data_fim", "date", "Data final"),
-            ("status", "select", "Status", ["agendada", "em_andamento", "concluida", "cancelada"]),
-        ],
-        "cols": ["id_parcela", "id_licenca", "numero_parcela", "data_inicio", "data_fim", "status"],
     },
 }
 
@@ -286,3 +259,52 @@ def atualizar_fluxo(item):
         solicitacao.status = "aprovada"
         if not solicitacao.licenca:
             db.session.add(Licenca(id_solicitacao=solicitacao.id_solicitacao, total_dias_aprovados=90, status="ativa"))
+
+
+def etapa_atual(solicitacao):
+    por_etapa = {tr.etapa: tr for tr in solicitacao.tramitacoes}
+    for etapa in ETAPAS:
+        tramitacao = por_etapa.get(etapa)
+        if not tramitacao or tramitacao.decisao == "pendente":
+            return tramitacao
+        if tramitacao.decisao == "negado":
+            return None
+    return None
+
+
+def parcelas_restantes(licenca, solicitacao):
+    if not licenca:
+        return 0
+    return max(0, solicitacao.qtd_parcelas - len(licenca.parcelas))
+
+
+def iniciar_parcela(parcela):
+    servidor = parcela.licenca.solicitacao.servidor
+    parcela.status = "em_andamento"
+    db.session.add(
+        AfastamentoVigente(
+            id_servidor=servidor.id_servidor,
+            tipo="licenca_capacitacao",
+            data_inicio=parcela.data_inicio,
+            data_fim=parcela.data_fim,
+            status="ativo",
+        )
+    )
+
+
+def concluir_parcela(parcela):
+    servidor = parcela.licenca.solicitacao.servidor
+    parcela.status = "concluida"
+    afastamento = AfastamentoVigente.query.filter_by(
+        id_servidor=servidor.id_servidor,
+        tipo="licenca_capacitacao",
+        status="ativo",
+        data_inicio=parcela.data_inicio,
+        data_fim=parcela.data_fim,
+    ).first()
+    if afastamento:
+        afastamento.status = "encerrado"
+
+
+def cancelar_parcela(parcela):
+    parcela.status = "cancelada"
