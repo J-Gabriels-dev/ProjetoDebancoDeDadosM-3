@@ -66,8 +66,8 @@ O script de criação das tabelas está disponível em [`modelo_logico_corrigido
 
 ```bash
 # 1. Clonar o repositório
-git clone <url-do-repositorio>
-cd <nome-do-repositorio>
+git clone <github.com/J-Gabriels-dev/ProjetoDebancoDeDadosM-3>
+cd <ProjetoDebancoDeDadosM-3>
 
 # 2. Instalar dependências
 pip install -r requirements.txt
