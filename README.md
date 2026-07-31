@@ -87,9 +87,10 @@ A aplicação ficará disponível em `http://localhost:8501`.
 ## 👥 Equipe
 
 - João Gabriel Paulino — Modelagem de Banco de Dados
-- João Gabriel Pereira
-- Alex Pablo
-- Carlos Eduardo
+- João Gabriel Pereira — Frontend e Backend
+- Alex Pablo — Diagramas de Classes e Casos de Uso
+- Carlos Eduardo — Requisitos Funcionais e Não Funcionais
+- Gabriel Pimentel — Diagramas de Classes e Casos de Uso
 
 **Orientador:** Prof. Me. José Soares da Silva Neto
 
