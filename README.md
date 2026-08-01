@@ -1,65 +1,104 @@
-# Sistema de Controle de Licenca Capacitacao
+# Sistema de Gestão de Licença Capacitação
 
-Sistema web desenvolvido em Python, Streamlit, SQLAlchemy e PyMySQL, usando o mesmo banco MySQL e os mesmos models do projeto original.
+Sistema web para controle e gerenciamento de solicitações de **Licença Capacitação** de servidores públicos federais, desenvolvido como projeto acadêmico do Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas — **IFPI Campus Angical**.
 
-## Como executar
+O projeto automatiza um processo hoje realizado manualmente por planilhas eletrônicas, cobrindo desde a solicitação do servidor até a tramitação, aprovação e controle de parcelas da licença concedida.
 
-1. Abra a pasta `Sistema-Licenca`.
-2. Crie e ative um ambiente virtual.
-3. Instale as dependencias:
+## 📋 Base legal
+
+- **Lei nº 8.112/1990** — Regime Jurídico dos Servidores Públicos Civis da União
+- **Decreto nº 9.991/2019** — Política Nacional de Desenvolvimento de Pessoas
+- **Instrução Normativa SGP-ENAP/SEDGG/ME nº 21/2021**
+
+## ✨ Funcionalidades
+
+- Cadastro, consulta, atualização e exclusão de servidores
+- Registro de afastamentos vigentes (com verificação de conflito de datas)
+- Abertura de solicitações de Licença Capacitação, vinculadas a uma ação de capacitação
+- Fluxo de tramitação com três etapas obrigatórias de aprovação (chefia imediata, gestão de pessoas e autoridade máxima)
+- Concessão de licença e controle de parcelas, com cálculo dinâmico do saldo de dias
+- Dashboard com indicadores gerais (total de servidores, solicitações, licenças, parcelas e pendências)
+
+> ⚠️ Nesta versão, o sistema contempla apenas o afastamento do tipo **Licença Capacitação** (Art. 18, inciso I, Decreto nº 9.991/2019). Os demais tipos previstos no mesmo artigo (Participação em Treinamento, Pós-graduação *stricto sensu* e Estudo no Exterior) não foram implementados — ver seção de Limitações no relatório técnico.
+
+## 🧱 Arquitetura
+
+O sistema segue uma arquitetura em três camadas, com responsabilidades bem delimitadas:
+
+| Camada | Responsabilidade |
+|---|---|
+| **Interface** | Streamlit — telas de cadastro, consulta e dashboard |
+| **Backend** | Regras de negócio complexas (validação de quinquênio, conflito de datas, interstício entre parcelas, limite de afastamentos simultâneos) |
+| **Banco de Dados** | Restrições estruturais simples (integridade referencial, unicidade, validações de domínio via `CHECK`) |
+
+O saldo de dias de capacitação **nunca é armazenado como campo estático** — é sempre calculado dinamicamente a partir da soma das parcelas concluídas (`SUM(DATEDIFF(data_fim, data_inicio))`).
+
+## 🗄️ Modelagem de dados
+
+O banco relacional é composto por **7 entidades principais**:
+
+`SERVIDOR` · `AFASTAMENTO_VIGENTE` · `SOLICITACAO` · `ACAO_CAPACITACAO` · `TRAMITACAO` · `LICENCA` · `PARCELA`
+
+Principais regras de negócio incorporadas como constraints no banco:
+
+- Máximo de **6 parcelas** por licença (Decreto 9.991/2019, Art. 25 §3º)
+- Mínimo de **15 dias** por parcela
+- Máximo de **90 dias** totais por licença (Lei 8.112/1990, Art. 87)
+- Mínimo de **30h semanais** de carga horária na ação de capacitação (Decreto 9.991/2019, Art. 26)
+- Exatamente **3 etapas** obrigatórias de tramitação por solicitação (IN 21/2021, Art. 33)
+
+O script de criação das tabelas está disponível em [`modelo_logico_corrigido.sql`](./modelo_logico_corrigido.sql), com 8 chaves estrangeiras e 13 `CHECK constraints`, testado em MySQL/MariaDB.
+
+## 🛠️ Tecnologias
+
+| Categoria | Ferramenta |
+|---|---|
+| Linguagem | Python |
+| Interface | Streamlit |
+| Banco de dados | MySQL |
+| IDE | Visual Studio Code |
+| Controle de versão | Git / GitHub |
+| Modelagem | draw.io |
+| Documentação | LaTeX (abnTeX2) / Microsoft Word |
+| Coleta de requisitos | Google Forms |
+
+## 🚀 Como executar
 
 ```bash
+# 1. Clonar o repositório
+git clone <github.com/J-Gabriels-dev/ProjetoDebancoDeDadosM-3>
+cd <ProjetoDebancoDeDadosM-3>
+
+# 2. Instalar dependências
 pip install -r requirements.txt
-```
 
-O pacote `cryptography` e necessario para conexoes MySQL com usuarios que usam `sha256_password` ou `caching_sha2_password`.
+# 3. Criar o banco de dados
+mysql -u root -p < modelo_logico_corrigido.sql
 
-4. No MySQL, execute os scripts do banco caso ainda nao tenha criado a base:
+# 4. Configurar a conexão com o banco
+# (ajustar host, usuário, senha e nome do banco no arquivo de configuração da aplicação)
 
-```sql
-SOURCE database/schema.sql;
-SOURCE database/inserts.sql;
-```
-
-5. Se necessario, ajuste a conexao no arquivo `config.py` ou use a variavel `DATABASE_URL`.
-
-Exemplo no Windows:
-
-```bash
-set DATABASE_URL=mysql+pymysql://root:senha@localhost/sistema_licenca_capacitacao
-```
-
-6. Inicie o sistema:
-
-```bash
+# 5. Rodar a aplicação
 streamlit run app.py
 ```
 
-O Streamlit exibira a URL local no terminal.
+A aplicação ficará disponível em `http://localhost:8501`.
 
-## Paginas
+## 👥 Equipe
 
-- Dashboard
-- Servidores
-- Afastamentos Vigentes
-- Solicitacoes
-- Acoes de Capacitacao
-- Tramitacoes
-- Licencas
-- Parcelas
+- João Gabriel Paulino — Modelagem de Banco de Dados
+- João Gabriel Pereira — Frontend e Backend
+- Alex Pablo — Diagramas de Classes e Casos de Uso
+- Carlos Eduardo — Requisitos Funcionais e Não Funcionais
+- Gabriel Pimentel — Diagramas de Classes e Casos de Uso
 
-## Regras preservadas
+**Orientador:** Prof. Me. José Soares da Silva Neto
 
-- Quinquênio: somente servidor ativo com 5 anos completos desde `data_posse` pode criar solicitacao.
-- Tramitacao: as etapas seguem a ordem `chefia_imediata`, `gestao_de_pessoas`, `autoridade_maxima`.
-- Negativa em qualquer etapa cancela a solicitacao.
-- Aprovacao das tres etapas cria automaticamente um registro em `LICENCA`.
-- Parcela valida conflito com afastamento vigente e com outra parcela do mesmo servidor.
-- Parcela valida intervalo minimo de 60 dias entre parcelas.
-- Parcela valida limite de 5% de servidores afastados simultaneamente.
-- Licenca valida maximo de 90 dias.
-- Saldo de dias e calculado dinamicamente pelas parcelas concluidas.
+## 📄 Documentação
 
-## Observacao sobre o banco
+O relatório técnico completo (introdução, tecnologias, modelagem, diagramas ER e de classes, testes e considerações finais) está disponível na pasta `docs/` do projeto.
 
-A migracao troca apenas a interface Flask/Jinja2 por Streamlit. A estrutura das tabelas MySQL, os models e as regras de negocio foram preservados.
+---
+
+*Instituto Federal de Educação, Ciência e Tecnologia do Piauí — Campus Angical*
+*Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas — 2026*
